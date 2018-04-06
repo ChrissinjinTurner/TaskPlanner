@@ -46,7 +46,7 @@ app.post('/login', function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
     var hash = connection.query('Select Password from User where username = ?', 
-      [username], function (error, rows) {
+      username, function (error, rows) {
         if (error) {
            throw error;
         } else {
