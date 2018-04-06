@@ -31,7 +31,16 @@ app.get('/', function(req, res, next) {
 
 /* GET home page */
 app.get('/home', function(req, res, next) {
-  res.render('home', {title: 'MyTaskPlanner Welcome ' + req.session.user});
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    res.render('home', {title: 'MyTaskPlanner, Welcome ' + req.session.user});
+  } else {
+    res.redirect('/login')
+  }
+})
+
+/* POST home page */
+app.post('/home', function(req, res, next) {
+
 })
 
 /* GET login page */
@@ -102,6 +111,16 @@ app.post('/register', function(req, res, next) {
         });
       });
     }
+})
+
+/* GET addhomework page. */
+app.get('/addhomework', function(req, res, next) {
+  res.render('addhomework', { title: 'Add Homework' });
+})
+
+/* GET edithomework page. */
+app.get('/edithomework', function(req, res, next) {
+  res.render('edithomework', { title: 'Edit Homework' });
 })
 
 module.exports = app;

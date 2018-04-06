@@ -1,16 +1,10 @@
-doctype html
-html
-    head
-        
-        title #{title}
-        link(rel='stylesheet', href='/styelsheets/style.css')
+extends layout
 
-    body
-        hi #{title}
-        form(action='/', method='post')
-          input.ghost-input(name='city', type='text', placeholder='Enter a City', required='')
-          input.ghost-button(type='submit', value='Get Weather')
-        if weather
-          p= weather
-        if error
-          p= error
+block content
+    .main.container
+        .row
+            h1 Home Page
+            form(method='GET' action='/addhomework')
+                button.btn.btn-primary(type='submit') Add Homework
+            form(method='GET' action='/edithomework')
+                button.btn.btn-primary(type='submit') Edit Homework

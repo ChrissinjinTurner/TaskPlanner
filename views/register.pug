@@ -6,30 +6,30 @@ block content
             h1 Register
             form(method='POST' action='/register')
                 div.form-group
-                    label(for='firstname') First Name:
+                    label(for='firstname') First Name: 
                     input.form-control(type='text' id='firstname' placeholder='First Name' name='firstname')
                 div.form-group
-                    label(for='lastname') Last Name:
+                    label(for='lastname') Last Name: 
                     input.form-control(type='text' id='lastname' placeholder='Last Name' name='lastname')
                 div.form-group
-                    label(for='username') Username:
+                    label(for='username') Username: 
                     input.form-control(type='text' id='username' placeholder='Username' name='username')
                 div.form-group
-                    label(for='password') Password:
+                    label(for='password') Password: 
                     input.form-control(type='password' id='password' placeholder='Password' name='password')
                 div.form-group
-                    label(for='confirmpassword') Confirm Password:
+                    label(for='confirmpassword') Confirm Password: 
                     input.form-control(type='password' id='confirmpassword' placeholder='Confrim Password' name='confirmpassword')
                 div.form-group
-                    label(for='email') Email:
+                    label(for='email') Email: 
                     input.form-control(type='text' id='email' placeholder='Email' name='email')
                 div.form-group
-                    label(for='schoolname') School Name:
+                    label(for='schoolname') School Name (Type full name): 
                     input.form-control(type='text' id='schoolname' placeholder='School Name' name='schoolname')
                 div.form-group
                     input.form-control(type='radio' id='role' name='role' value = 0)
-                    | Teacher
+                    |  Teacher <br/>
                     input.form-control(type='radio' id='role' name='role' value = 1)
-                    | Student
+                    |  Student 
                 button.btn.btn-primary(type='submit') Submit
             
