@@ -58,42 +58,37 @@ app.get('/login', function(req, res, next) {
 })
 
 /* POST teacher login page */
-/* FIXME: Add checking if student and then redirect to studenthome.pug*/
 app.post('/login', function(req, res, next) {
   if (req.body.username && req.body.password) {
-    var values = [];
     var username = req.body.username;
     var password = req.body.password;
-    var hash = connection.query('Select Password, RoleId from User where username = ?',
-      username, function (error, rows) {
-        if (error) {
-          throw error;
-        } else {
-          if (rows.length > 0) {
-            values = rows;
-            console.log(rows);
-            console.log(rows[1]);
-            console.log(values[0]);
-            bcrypt.compare(password, hash, function (error, result) {
-              // GOOD PASSWORD
-              // if (values[1] == 0) {
-              //   req.session.user = username; 
-              //   return res.redirect('/home');
-              // } else {
-              //   req.session.user = username; 
-              //   return res.redirect('/studenthome');
-              // }
-              if (error) {
-                return res.redirect('/login');
-              } else {
-                req.session.user = username; 
-                return res.redirect('/home');
-              }
-              
-              
-            })
+    var hash = connection.query('Select Password, UserId, RoleId from User where username = ?',
+      username, function (err, rows, fields) {
+        if (err) return next(err);
+        console.log('Password ', rows[0].Password);
+        console.log('UserId ', rows[0].UserId);
+        console.log('RoleId ', rows[0].RoleId);
+        bcrypt.compare(password, rows[0].Password, function (err, result) {
+          if (result == false) {
+            return res.redirect('/login');
+          } else {
+            if (rows[0].RoleId == 1) {
+              req.session.userId = rows[0].UserId;
+              req.session.roleId = rows[0].RoleId;
+              req.session.user = username; 
+              return res.redirect('/studenthome');
+            } else {
+              req.session.userId = rows[0].UserId;
+              req.session.roleId = rows[0].RoleId;
+              req.session.user = username; 
+              return res.redirect('/home');
+            }
+            // req.session.userId = rows[0].UserId;
+            // req.session.roleId = rows[0].RoleId;
+            // req.session.user = username; 
+            // return res.redirect('/home');
           }
-        }
+        })
       })
   }
 })
