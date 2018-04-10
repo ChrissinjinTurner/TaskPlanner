@@ -40,36 +40,61 @@ app.get('/home', function(req, res, next) {
 
 /* POST home page */
 app.post('/home', function(req, res, next) {
-
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    res.render('studenthome', {title: 'MyTaskPlanner, Welcome ' + req.session.user});
+  } else {
+    res.redirect('/login')
+  }
 })
 
-/* GET login page */
+/* GET Student main page */
+app.get('/studenthome', function(req, res, next) {
+  return res.render('studenthome', {title: 'Student Home'});
+})
+
+/* GET Teacher login page */
 app.get('/login', function(req, res, next) {
   return res.render('login', {title: 'Log In'});
 })
 
-/* POST login page */
+/* POST teacher login page */
+/* FIXME: Add checking if student and then redirect to studenthome.pug*/
 app.post('/login', function(req, res, next) {
   if (req.body.username && req.body.password) {
-    var results = [];
+    var values = [];
     var username = req.body.username;
     var password = req.body.password;
-    var hash = connection.query('Select Password from User where username = ?', 
+    var hash = connection.query('Select Password, RoleId from User where username = ?',
       username, function (error, rows) {
         if (error) {
-           throw error;
+          throw error;
         } else {
           if (rows.length > 0) {
-            bcrypt.compare(password, hash, function(err, result) {
-              // result == true
-              req.session.user = username;
-              return res.redirect('/home');
-            });
-          } else {
-            res.send({"code":204, "success":"Username doesn't exhist"});
+            values = rows;
+            console.log(rows);
+            console.log(rows[1]);
+            console.log(values[0]);
+            bcrypt.compare(password, hash, function (error, result) {
+              // GOOD PASSWORD
+              // if (values[1] == 0) {
+              //   req.session.user = username; 
+              //   return res.redirect('/home');
+              // } else {
+              //   req.session.user = username; 
+              //   return res.redirect('/studenthome');
+              // }
+              if (error) {
+                return res.redirect('/login');
+              } else {
+                req.session.user = username; 
+                return res.redirect('/home');
+              }
+              
+              
+            })
           }
         }
-      });
+      })
   }
 })
 
@@ -115,12 +140,32 @@ app.post('/register', function(req, res, next) {
 
 /* GET addhomework page. */
 app.get('/addhomework', function(req, res, next) {
-  res.render('addhomework', { title: 'Add Homework' });
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    res.render('edithomework', { title: 'Edit Homework' });
+  } else {
+    res.redirect('/login')
+  }
 })
 
 /* GET edithomework page. */
 app.get('/edithomework', function(req, res, next) {
-  res.render('edithomework', { title: 'Edit Homework' });
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    res.render('edithomework', { title: 'Edit Homework' });
+  } else {
+    res.redirect('/login')
+  }
 })
+
+/* GET teacher course page */
+
+/* GET student course page */
+
+/* GET addcourse page*/
+
+/* GET editcourse page */
+
+/* GET profile page */
+
+/* GET edit profile page */
 
 module.exports = app;
