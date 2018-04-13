@@ -252,6 +252,13 @@ app.post('/course', function(req, res, next) {
 })
 
 /* GET student course page */
+app.get('/studentcourse', function(req, res, next) {
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    res.render('studentcourse', { title: 'Student Course' });
+  } else {
+    res.redirect('/login')
+  }
+})
 /* ----------------------------------END COURSE PAGE--------------------------------------------------- */
 
 /* ----------------------------------START ADD/EDIT COURSE--------------------------------------------- */
