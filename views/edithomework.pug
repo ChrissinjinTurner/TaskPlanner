@@ -4,7 +4,11 @@ block content
     .main.container
         .row
             h1 Edit Homework
+            a(href="/home") Go back
             form(method='GET' action='/home')
+                div.form-group
+                    label(for='homeworkid') Homework Id to Edit: 
+                    input.form-control(type='text' id='homeworkid' placeholder='Homework Name' name='homeworkid')
                 div.form-group
                     label(for='homeworkname') Homework Name: 
                     input.form-control(type='text' id='homeworkname' placeholder='Homework Name' name='homeworkname')
@@ -24,4 +28,29 @@ block content
                     label(for='description') Description: 
                     input.form-control(type='text' id='description' placeholder='Description' name='description')
                 button.btn.btn-primary(type='submit') Submit
+    .tbl-content
+        table(cellpadding='5', cellspacing='1', border='1')
+            thead
+                tr
+                    th Homework Id
+                    th Task Name
+                    th Course Name
+                    th Course Code
+                    th Homework Type
+                    th Due Date
+                    th Priority
+                    th Description
+                    th Professor
+            tbody
+                each row in table
+                    tr
+                        td= row.TaskId
+                        td= row.Taskname
+                        td= row.Coursename
+                        td= row.CourseCode
+                        td= row.HomeworkType
+                        td= row.DueDate
+                        td= row.Priority
+                        td= row.Description
+                        td= row.Professor
             

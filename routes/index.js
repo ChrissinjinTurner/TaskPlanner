@@ -53,7 +53,7 @@ app.get('/home', function(req, res, next) {
             component.push(singleRow);
           }
         }
-        res.render('home', {table: component});
+        res.render('home', {table: component, title: 'Home'});
       });
   } else {
     res.redirect('/login')
@@ -209,7 +209,26 @@ app.post('/addhomework', function(req, res, next) {
 /* GET edithomework page. */
 app.get('/edithomework', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
-    res.render('edithomework', { title: 'Edit Homework' });
+    var component = [];
+    connection.query('select Task.TaskId, Task.Taskname, Task.HomeworkType, Task.DueDate, Task.Priority, Task.Description, Course.Coursename, Course.CourseCode, Course.Professor from Task LEFT JOIN Course on Task.CourseId = Course.CourseId where Course.UserId = ?;',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.TaskId = rows[i].TaskId;
+            singleRow.Taskname = rows[i].Taskname;
+            singleRow.HomeworkType = rows[i].HomeworkType;
+            singleRow.DueDate = rows[i].DueDate;
+            singleRow.Priority = rows[i].Priority;
+            singleRow.Description = rows[i].Description;
+            singleRow.Coursename = rows[i].Coursename;
+            singleRow.CourseCode = rows[i].CourseCode;
+            singleRow.Professor = rows[i].Professor;
+            component.push(singleRow);
+          }
+        }
+        res.render('edithomework', {table: component, title: 'Edit Homework'});
+      });
   } else {
     res.redirect('/login')
   }
@@ -239,7 +258,7 @@ app.get('/course', function(req, res, next) {
             component.push(singleRow);
           }
         }
-        res.render('course', {table: component});
+        res.render('course', {table: component, title: 'Courses'});
       });
   } else {
     res.redirect('/login')
@@ -276,7 +295,24 @@ app.get('/addcourse', function(req, res, next) {
 /* GET editcourse page */
 app.get('/editcourse', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
-    res.render('editcourse', { title: 'Edit Course' });
+    var component = [];
+    var query = connection.query('select * from Course where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.CourseId = rows[i].CourseId;
+            singleRow.Coursename = rows[i].Coursename;
+            singleRow.CourseCode = rows[i].CourseCode;
+            singleRow.StartDate = rows[i].StartDate;
+            singleRow.EndDate = rows[i].EndDate;
+            singleRow.location = rows[i].location;
+            singleRow.Professor = rows[i].Professor;
+            component.push(singleRow);
+          }
+        }
+        res.render('editcourse', {table: component, title: 'Edit Course'});
+      });
   } else {
     res.redirect('/login')
   }
@@ -296,6 +332,13 @@ app.get('/profile', function(req, res, next) {
 })
 
 /* GET edit profile page */
+app.get('/editprofile', function(req, res, next) {
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    res.render('editprofile', { title: 'Profile' });
+  } else {
+    res.redirect('/login')
+  }
+})
 
 /* POST edit profile page*/
 /* ----------------------------------END PROFILE------------------------------------------------------- */

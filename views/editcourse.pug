@@ -4,7 +4,11 @@ block content
     .main.container
         .row
             h1 Edit Course
+            a(href="/course") Go back
             form(method='POST' action='/addcourse')
+                div.form-group
+                    label(for='courseid') Course Id to Edit: 
+                    input.form-control(type='text' id='courseid' placeholder='Course Name' name='courseid')
                 div.form-group
                     label(for='coursename') Course Name: 
                     input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
@@ -24,4 +28,25 @@ block content
                     label(for='professor') Professor: 
                     input.form-control(type='text' id='professor' placeholder='Professor' name='professor')
                 button.btn.btn-primary(type='submit') Submit
+    .tbl-content
+        table(cellpadding='5', cellspacing='1', border='1')
+            thead
+                tr
+                    th Course Id
+                    th Course Name
+                    th Course Code
+                    th Start Date
+                    th End Date
+                    th Location
+                    th Professor
+            tbody
+                each row in table
+                    tr
+                        td= row.CourseId
+                        td= row.Coursename
+                        td= row.CourseCode
+                        td= row.StartDate
+                        td= row.EndDate
+                        td= row.location
+                        td= row.Professor
             
