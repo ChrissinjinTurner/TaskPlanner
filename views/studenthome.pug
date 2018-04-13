@@ -1,6 +1,42 @@
 extends layout
 
 block content
+    .navigation-bar
+        ul
+            li(style="float:right")
+                a(href="/logout") Log out
+            li
+                a(href="/studenthome") Home
+            li
+                a(href="/course") Courses
+            li
+                a(href="/profile") Profile
     .main.container
         .row
-            h1 Homework
+            h1 Home Page
+    .tbl-content
+        table(cellpadding='5', cellspacing='1', border='1')
+            thead
+                tr
+                    th TaskId
+                    th Task Name
+                    th Course Name
+                    th Course Code
+                    th Homework Type
+                    th Due Date
+                    th Priority
+                    th Description
+                    th Professor
+            tbody
+                each row in table
+                    tr
+                        td= row.TaskId
+                        td= row.Taskname
+                        td= row.Coursename
+                        td= row.CourseCode
+                        td= row.HomeworkType
+                        td= row.DueDate
+                        td= row.Priority
+                        td= row.Description
+                        td= row.Professor
+                            

@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    .navigation-bar
+        ul
+            li(style="float:right")
+                a(href="/logout") Log out
+            li
+                a(href="/home") Home
+            li
+                a(href="/course") Courses
+            li
+                a(href="/profile") Profile
+    .main.container
+        .row
+            h1 Profile
+    .tbl-content
+        table(cellpadding='5', cellspacing='1', border='1')
+            thead
+                tr
+                    th First Name
+                    th Last Name
+                    th Username
+                    th Email
+                    th School
+                    
+            tbody
+                //- each row in table
+                //-     tr
+                    
+            

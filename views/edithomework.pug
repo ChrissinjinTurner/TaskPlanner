@@ -5,4 +5,23 @@ block content
         .row
             h1 Edit Homework
             form(method='GET' action='/home')
+                div.form-group
+                    label(for='homeworkname') Homework Name: 
+                    input.form-control(type='text' id='homeworkname' placeholder='Homework Name' name='homeworkname')
+                div.form-group
+                    label(for='coursename') Course Name: 
+                    input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
+                div.form-group
+                    label(for='type') Homework Type: 
+                    input.form-control(type='text' id='type' placeholder='Homework Type' name='type')
+                div.form-group
+                    label(for='duedate') Dude Date (YYYY-MM-DD HH:MM:SS): 
+                    input.form-control(type='text' id='duedate' placeholder='Due Date' name='duedate')
+                div.form-group
+                    label(for='priority') Priority: 
+                    input.form-control(type='text' id='priority' placeholder='Priority' name='priority')
+                div.form-group
+                    label(for='description') Description: 
+                    input.form-control(type='text' id='description' placeholder='Description' name='description')
                 button.btn.btn-primary(type='submit') Submit
+            

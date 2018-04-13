@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    .main.container
+        .row
+            h1 Add Course
+            form(method='POST' action='/addcourse')
+                div.form-group
+                    label(for='coursename') Course Name: 
+                    input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
+                div.form-group
+                    label(for='coursecode') Course Code: 
+                    input.form-control(type='text' id='coursecode' placeholder='Course Name' name='coursecode')
+                div.form-group
+                    label(for='startdate') Start Date (YYYY-MM-DD): 
+                    input.form-control(type='text' id='startdate' placeholder='Start Date' name='startdate')
+                div.form-group
+                    label(for='enddate') End Date (YYYY-MM-DD): 
+                    input.form-control(type='text' id='enddate' placeholder='End Date' name='enddate')
+                div.form-group
+                    label(for='location') Location: 
+                    input.form-control(type='text' id='location' placeholder='Location' name='location')
+                div.form-group
+                    label(for='professor') Professor: 
+                    input.form-control(type='text' id='professor' placeholder='Professor' name='professor')
+                button.btn.btn-primary(type='submit') Submit
+            
