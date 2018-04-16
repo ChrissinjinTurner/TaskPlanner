@@ -1,6 +1,7 @@
 /* Written by Chris Turner */
 var express = require('express');
 var session = require('express-session')
+let date = require('date-and-time');
 
 /* Session setup */
 var app = express()
@@ -219,7 +220,35 @@ app.post('/addhomework', function(req, res, next) {
     req.body.duedate &&
     req.body.priority &&
     req.body.description) {
-      
+      var inputCourseId = parseInt(req.body.courseid);
+      // var inputDueDate = date.parse(req.body.duedate, 'YYYY-MM-DD HH:mm:ss'); 
+      var inputDueDate = req.body.duedate;
+
+      var post = { Taskname: req.body.homeworkname,
+        CourseId:  inputCourseId,
+        HomeworkType: req.body.type,
+        DueDate: inputDueDate,
+        Priority: req.body.priority,
+        Description: req.body.description,
+        UserId: req.session.userId
+
+      };
+      console.log(post);
+      var query1 = connection.query('Insert into Task set ?', post, 
+        function(err, rows, fields) {
+          console.log(query1);
+          if (err) throw err;
+
+          console.log(rows)
+
+          var query3 = connection.query('Insert into AssignedHomework (UserId, TaskId) select UserId, ' + rows.insertId + ' from Enrolled where CourseId = ' + inputCourseId + '',
+            function (queryError, queryRows, queryFields) {
+              console.log(query3);
+              if (queryError) throw queryError;
+              res.redirect('/home');
+            })
+          
+        });
     }
 })
 
