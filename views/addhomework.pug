@@ -10,8 +10,8 @@ block content
                     label(for='homeworkname') Homework Name: 
                     input.form-control(type='text' id='homeworkname' placeholder='Homework Name' name='homeworkname')
                 div.form-group
-                    label(for='coursename') Course Name: 
-                    input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
+                    label(for='courseid') Course Id: 
+                    input.form-control(type='text' id='courseid' placeholder='Course Id' name='courseid')
                 div.form-group
                     label(for='type') Homework Type: 
                     input.form-control(type='text' id='type' placeholder='Homework Type' name='type')
@@ -25,4 +25,26 @@ block content
                     label(for='description') Description: 
                     input.form-control(type='text' id='description' placeholder='Description' name='description')
                 button.btn.btn-primary(type='submit') Submit
+    .tbl-content
+        p Courses you teach:
+        table(cellpadding='5', cellspacing='1', border='1')
+            thead
+                tr
+                    th CourseId
+                    th Course Name
+                    th Course Code
+                    th Start Date
+                    th End Date
+                    th Location
+                    th Professor
+            tbody
+                each row in table
+                    tr
+                        td= row.CourseId
+                        td= row.Coursename
+                        td= row.CourseCode
+                        td= row.StartDate
+                        td= row.EndDate
+                        td= row.location
+                        td= row.Professor
             

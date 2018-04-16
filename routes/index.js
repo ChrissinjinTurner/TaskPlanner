@@ -188,16 +188,33 @@ app.post('/register', function(req, res, next) {
 /* GET addhomework page. */
 app.get('/addhomework', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
-    res.render('addhomework', { title: 'Add Homework' });
+    var component = [];
+    var query = connection.query('select * from Course where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.CourseId = rows[i].CourseId;
+            singleRow.Coursename = rows[i].Coursename;
+            singleRow.CourseCode = rows[i].CourseCode;
+            singleRow.StartDate = rows[i].StartDate;
+            singleRow.EndDate = rows[i].EndDate;
+            singleRow.location = rows[i].location;
+            singleRow.Professor = rows[i].Professor;
+            component.push(singleRow);
+          }
+        }
+        res.render('addhomework', {table: component, title: 'Add Homework'});
+      });
   } else {
     res.redirect('/login')
   }
 })
 
-/* POST addhomework page */
+/* POST addhomework page FIXME: add query */
 app.post('/addhomework', function(req, res, next) {
   if (req.body.homeworkname &&
-    req.body.coursename &&
+    req.body.courseid &&
     req.body.type &&
     req.body.duedate &&
     req.body.priority &&
@@ -234,7 +251,7 @@ app.get('/edithomework', function(req, res, next) {
   }
 })
 
-/* POST edithomework page */
+/* POST edithomework page FIXME: Need to create page*/
 /* ----------------------------------END ADD/EDIT HOMEWORK--------------------------------------------- */
 
 /* ----------------------------------START COURSE PAGE------------------------------------------------- */
@@ -265,15 +282,32 @@ app.get('/course', function(req, res, next) {
   }
 })
 
-/* POST teacher course page */
+/* POST teacher course page FIXME: Add query */
 app.post('/course', function(req, res, next) {
   
 })
 
-/* GET student course page */
+/* GET student course page FIXME: Query is for teacher not student */
 app.get('/studentcourse', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
-    res.render('studentcourse', { title: 'Student Course' });
+    var component = [];
+    var query = connection.query('select * from Course where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.CourseId = rows[i].CourseId;
+            singleRow.Coursename = rows[i].Coursename;
+            singleRow.CourseCode = rows[i].CourseCode;
+            singleRow.StartDate = rows[i].StartDate;
+            singleRow.EndDate = rows[i].EndDate;
+            singleRow.location = rows[i].location;
+            singleRow.Professor = rows[i].Professor;
+            component.push(singleRow);
+          }
+        }
+        res.render('course', {table: component, title: 'Student Courses'});
+      });
   } else {
     res.redirect('/login')
   }
@@ -290,7 +324,7 @@ app.get('/addcourse', function(req, res, next) {
   }
 })
 
-/* POST addcourse page */
+/* POST addcourse page FIXME: Add query */
 
 /* GET editcourse page */
 app.get('/editcourse', function(req, res, next) {
@@ -318,7 +352,7 @@ app.get('/editcourse', function(req, res, next) {
   }
 })
 
-/* POST editcourse page */
+/* POST editcourse page FIXME: add functionality */
 /* ----------------------------------END ADD/EDIT COURSE----------------------------------------------- */
 
 /* ----------------------------------START PROFILE----------------------------------------------------- */
@@ -334,13 +368,13 @@ app.get('/profile', function(req, res, next) {
 /* GET edit profile page */
 app.get('/editprofile', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
-    res.render('editprofile', { title: 'Profile' });
+    res.render('editprofile', { title: 'Edit Profile' });
   } else {
     res.redirect('/login')
   }
 })
 
-/* POST edit profile page*/
+/* POST edit profile page FIXME: add functionality */
 /* ----------------------------------END PROFILE------------------------------------------------------- */
 
 /* ----------------------------------START LOGOUT------------------------------------------------------ */
