@@ -212,7 +212,7 @@ app.get('/addhomework', function(req, res, next) {
   }
 })
 
-/* POST addhomework page FIXME: add query */
+/* POST addhomework page */
 app.post('/addhomework', function(req, res, next) {
   if (req.body.homeworkname &&
     req.body.courseid &&
@@ -221,7 +221,6 @@ app.post('/addhomework', function(req, res, next) {
     req.body.priority &&
     req.body.description) {
       var inputCourseId = parseInt(req.body.courseid);
-      // var inputDueDate = date.parse(req.body.duedate, 'YYYY-MM-DD HH:mm:ss'); 
       var inputDueDate = req.body.duedate;
 
       var post = { Taskname: req.body.homeworkname,
@@ -252,7 +251,7 @@ app.post('/addhomework', function(req, res, next) {
     }
 })
 
-/* GET edithomework page. */
+/* GET edithomework page FIXME: add course table */
 app.get('/edithomework', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
     var component = [];
@@ -316,16 +315,16 @@ app.post('/course', function(req, res, next) {
   
 })
 
-/* GET student course page FIXME: Query is for teacher not student */
+/* GET student course page */
 app.get('/studentcourse', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
     var component = [];
-    var query = connection.query('select * from Course where UserId = ?',req.session.userId,
+    var query = connection.query('select Course.Coursename, Course.CourseCode, Course.StartDate, Course.EndDate, Course.location, Course.Professor ' + 
+      'from Course left join Enrolled on Course.CourseId = Enrolled.CourseId where Enrolled.UserId = ?',req.session.userId,
       function(err, rows, fields) {
         if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
           for (var i = 0; i < rows.length; i++) {
             var singleRow = {};
-            singleRow.CourseId = rows[i].CourseId;
             singleRow.Coursename = rows[i].Coursename;
             singleRow.CourseCode = rows[i].CourseCode;
             singleRow.StartDate = rows[i].StartDate;
@@ -335,7 +334,7 @@ app.get('/studentcourse', function(req, res, next) {
             component.push(singleRow);
           }
         }
-        res.render('course', {table: component, title: 'Student Courses'});
+        res.render('studentcourse', {table: component, title: 'Student Courses'});
       });
   } else {
     res.redirect('/login')
