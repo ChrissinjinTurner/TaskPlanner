@@ -61,6 +61,24 @@ app.get('/home', function(req, res, next) {
   }
 })
 
+/* POST home page */
+app.post('/home', function(req, res, next) {
+  if (req.body.deletehomeworkid) {
+    post = {
+      TaskId: parseInt(req.body.deletehomeworkid)
+    };
+    var query1 = connection.query('Delete from AssignedHomework where ?', post, 
+      function(err, rows, fields) {
+        console.log(query1);
+        if (err) throw err;
+        var query2 = connection.query('Delete from Task where UserId = ' + req.session.userId + ' and ?', post,
+          function(error, rows2, fields2) {
+            res.redirect('/home');
+          })
+      });
+  }
+})
+
 /* GET Student home page */
 app.get('/studenthome', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
@@ -95,7 +113,17 @@ app.get('/studenthome', function(req, res, next) {
 
 /* POST Student home page*/
 app.post('/studenthome', function(req, res, next) {
-  /* TODO: set up ability to delete homework from user */
+  if (req.body.completehomeworkid) {
+      post = {
+        TaskId: parseInt(req.body.completehomeworkid)
+      };
+      var query1 = connection.query('Delete from AssignedHomework where UserId = ' + req.session.userId + ' and ?', post, 
+        function(err, rows, fields) {
+          console.log(query1);
+          if (err) throw err;
+          res.redirect('/studenthome');
+        });
+    }
 })
 /* ----------------------------------END HOME PAGE----------------------------------------------------- */
 
@@ -304,7 +332,7 @@ app.get('/course', function(req, res, next) {
   }
 })
 
-/* POST teacher course page FIXME: Add query */
+/* POST teacher course page FIXME: Add query to delete course */
 app.post('/course', function(req, res, next) {
   
 })
