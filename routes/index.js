@@ -232,17 +232,11 @@ app.post('/addhomework', function(req, res, next) {
         UserId: req.session.userId
 
       };
-      console.log(post);
       var query1 = connection.query('Insert into Task set ?', post, 
         function(err, rows, fields) {
-          console.log(query1);
           if (err) throw err;
-
-          console.log(rows)
-
           var query3 = connection.query('Insert into AssignedHomework (UserId, TaskId) select UserId, ' + rows.insertId + ' from Enrolled where CourseId = ' + inputCourseId + '',
             function (queryError, queryRows, queryFields) {
-              console.log(query3);
               if (queryError) throw queryError;
               res.redirect('/home');
             })
@@ -353,6 +347,29 @@ app.get('/addcourse', function(req, res, next) {
 })
 
 /* POST addcourse page FIXME: Add query */
+app.post('/addcourse', function(req, res, next) {
+  if (req.body.coursename &&
+    req.body.coursecode &&
+    req.body.startdate &&
+    req.body.enddate &&
+    req.body.location &&
+    req.body.professor) {
+      var post = { Coursename: req.body.coursename,
+        CourseCode:  req.body.coursecode,
+        StartDate: req.body.startdate,
+        EndDate: req.body.enddate,
+        location: req.body.location,
+        Professor: req.body.professor,
+        UserId: req.session.userId
+
+      };
+      var query1 = connection.query('Insert into Course set ?', post, 
+        function(err, rows, fields) {
+          if (err) throw err;
+          res.redirect('/course');
+        });
+    }
+})
 
 /* GET editcourse page */
 app.get('/editcourse', function(req, res, next) {
@@ -382,6 +399,34 @@ app.get('/editcourse', function(req, res, next) {
 
 /* POST editcourse page FIXME: add functionality */
 /* ----------------------------------END ADD/EDIT COURSE----------------------------------------------- */
+
+/* ----------------------------------Start ADD Student------------------------------------------------- */
+/* GET add student */
+app.get('/addstudent', function(req, res, next) {
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    var component = [];
+    var query = connection.query('select * from Course where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.CourseId = rows[i].CourseId;
+            singleRow.Coursename = rows[i].Coursename;
+            singleRow.CourseCode = rows[i].CourseCode;
+            singleRow.StartDate = rows[i].StartDate;
+            singleRow.EndDate = rows[i].EndDate;
+            singleRow.location = rows[i].location;
+            singleRow.Professor = rows[i].Professor;
+            component.push(singleRow);
+          }
+        }
+        res.render('addstudent', {table: component, title: 'Add Student'});
+      });
+  } else {
+    res.redirect('/login')
+  }
+})
+/* ----------------------------------END ADD Student--------------------------------------------------- */
 
 /* ----------------------------------START PROFILE----------------------------------------------------- */
 /* GET profile page */

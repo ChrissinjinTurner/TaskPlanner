@@ -13,11 +13,13 @@ block content
                 a(href="/profile") Profile
     .main.container
         .row
-            h1 Home Page
+            h1 Course Page
             form(method='GET' action='/addcourse')
                 button.btn.btn-primary(type='submit') Add Course
             form(method='GET' action='/editcourse')
                 button.btn.btn-primary(type='submit') Edit Course
+            form(method='GET' action='/addstudent')
+                button.btn.btn-primary(type='submit') Add Student to Course
     .tbl-content
         table(cellpadding='5', cellspacing='1', border='1')
             thead
