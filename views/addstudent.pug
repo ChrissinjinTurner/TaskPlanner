@@ -8,16 +8,13 @@ block content
             form(method='POST' action='/addstudent')
                 div.form-group
                     label(for='courseid') Course Id: 
-                    input.form-control(type='text' id='courseid' placeholder='Course Name' name='courseid')
+                    input.form-control(type='text' id='courseid' placeholder='Course ID' name='courseid')
                 div.form-group
                     label(for='username') Student Username: 
-                    input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
+                    input.form-control(type='text' id='username' placeholder='Username' name='username')
                 div.form-group
-                    label(for='firstname') Student First Name: 
-                    input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
-                div.form-group
-                    label(for='lastname') Student Last Name: 
-                    input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
+                    label(for='userid') Student UserId: 
+                    input.form-control(type='text' id='userid' placeholder='Student UserId' name='userid')
                 button.btn.btn-primary(type='submit') Submit
     .tbl-content
         table(cellpadding='5', cellspacing='1', border='1')
@@ -40,4 +37,18 @@ block content
                         td= row.EndDate
                         td= row.location
                         td= row.Professor
-            
+    .tbl-content
+        table(cellpadding='5', cellspacing='1', border='1')
+            thead
+                tr
+                    th UserId
+                    th Username
+                    th First Name 
+                    th Last Name
+            tbody
+                each row2 in table2
+                    tr
+                        td= row2.UserId
+                        td= row2.Username
+                        td= row2.Firstname
+                        td= row2.Lastname

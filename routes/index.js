@@ -245,7 +245,7 @@ app.post('/addhomework', function(req, res, next) {
     }
 })
 
-/* GET edithomework page FIXME: add course table */
+/* GET edithomework page */
 app.get('/edithomework', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
     var component = [];
@@ -405,6 +405,7 @@ app.get('/editcourse', function(req, res, next) {
 app.get('/addstudent', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
     var component = [];
+    var component2 = [];
     var query = connection.query('select * from Course where UserId = ?',req.session.userId,
       function(err, rows, fields) {
         if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
@@ -420,12 +421,29 @@ app.get('/addstudent', function(req, res, next) {
             component.push(singleRow);
           }
         }
-        res.render('addstudent', {table: component, title: 'Add Student'});
+        var query2 = connection.query('select UserId, Username, Firstname, Lastname from User where School = ' + 
+        '(select School from User where UserId = ?) and RoleId = 1',req.session.userId,
+        function(err, rows, fields) {
+          if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+            for (var i = 0; i < rows.length; i++) {
+              var singleRow2 = {};
+              singleRow2.UserId = rows[i].UserId;
+              singleRow2.Username = rows[i].Username;
+              singleRow2.Firstname = rows[i].Firstname;
+              singleRow2.Lastname = rows[i].Lastname;
+              component2.push(singleRow2);
+            }
+            console.log(component2);
+            res.render('addstudent', {table: component, table2: component2, title: 'Add Student'});
+          }
+        });
       });
+      
   } else {
     res.redirect('/login')
   }
 })
+/* POST add student FIXME: ADD IT*/
 /* ----------------------------------END ADD Student--------------------------------------------------- */
 
 /* ----------------------------------START PROFILE----------------------------------------------------- */
