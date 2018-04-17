@@ -69,7 +69,6 @@ app.post('/home', function(req, res, next) {
     };
     var query1 = connection.query('Delete from AssignedHomework where ?', post, 
       function(err, rows, fields) {
-        console.log(query1);
         if (err) throw err;
         var query2 = connection.query('Delete from Task where UserId = ' + req.session.userId + ' and ?', post,
           function(error, rows2, fields2) {
@@ -119,7 +118,6 @@ app.post('/studenthome', function(req, res, next) {
       };
       var query1 = connection.query('Delete from AssignedHomework where UserId = ' + req.session.userId + ' and ?', post, 
         function(err, rows, fields) {
-          console.log(query1);
           if (err) throw err;
           res.redirect('/studenthome');
         });
@@ -141,9 +139,6 @@ app.post('/login', function(req, res, next) {
     var hash = connection.query('Select Password, UserId, RoleId from User where username = ?',
       username, function (err, rows, fields) {
         if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
-          // console.log('Password ', rows[0].Password);
-          // console.log('UserId ', rows[0].UserId);
-          // console.log('RoleId ', rows[0].RoleId);
           bcrypt.compare(password, rows[0].Password, function (err, result) {
             if (result == false) {
               return res.redirect('/login');
@@ -461,7 +456,6 @@ app.get('/addstudent', function(req, res, next) {
               singleRow2.Lastname = rows[i].Lastname;
               component2.push(singleRow2);
             }
-            console.log(component2);
             res.render('addstudent', {table: component, table2: component2, title: 'Add Student'});
           }
         });
