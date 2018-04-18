@@ -327,9 +327,22 @@ app.get('/course', function(req, res, next) {
   }
 })
 
-/* POST teacher course page FIXME: Add query to delete course */
+/* POST teacher course page */
 app.post('/course', function(req, res, next) {
-  
+  if (req.body.deletecourseid) {
+    post = {
+      CourseId: parseInt(req.body.deletecourseid)
+    };
+    var query1 = connection.query('Delete from Enrolled where ?', post, 
+      function(err, rows, fields) {
+        if (err) throw err;
+        var query3 = connection.query('Delete from Course where UserId = ' + req.session.userId + ' and ?', post,
+          function(error, rows2, fields2) {
+            console.log(query3);
+            res.redirect('/course');
+          })
+      });
+  }
 })
 
 /* GET student course page */
@@ -369,7 +382,7 @@ app.get('/addcourse', function(req, res, next) {
   }
 })
 
-/* POST addcourse page FIXME: Add query */
+/* POST addcourse page */
 app.post('/addcourse', function(req, res, next) {
   if (req.body.coursename &&
     req.body.coursecode &&
@@ -384,7 +397,6 @@ app.post('/addcourse', function(req, res, next) {
         location: req.body.location,
         Professor: req.body.professor,
         UserId: req.session.userId
-
       };
       var query1 = connection.query('Insert into Course set ?', post, 
         function(err, rows, fields) {
@@ -465,7 +477,26 @@ app.get('/addstudent', function(req, res, next) {
     res.redirect('/login')
   }
 })
-/* POST add student FIXME: ADD IT*/
+
+/* POST add student */
+app.post('/addstudent', function(req, res, next) {
+  if (req.body.courseid &&
+    req.body.username &&
+    req.body.userid) {
+    post = {
+      CourseId: parseInt(req.body.courseid),
+      UserId: parseInt(req.body.userid),
+      TeacherId: req.session.userId
+    };
+    var query1 = connection.query('Insert into Enrolled set ?', post, 
+      function(err, rows, fields) {
+        console.log(query1);
+        if (err) throw err;
+        res.redirect('/addstudent');
+      });
+  }
+})
+
 /* ----------------------------------END ADD Student--------------------------------------------------- */
 
 /* ----------------------------------START PROFILE----------------------------------------------------- */
