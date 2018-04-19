@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    .navigation-bar
+        ul
+            li(style="float:right")
+                a(href="/logout") Log out
+            li
+                a(href="/studenthome") Home
+            li
+                a(href="/studentcourse") Courses
+            li
+                a(href="/studentprofile") Profile
+    .main.container
+        .row
+            h1 Profile
+            form(method='GET' action='/editprofile')
+                button.btn.btn-primary(type='submit') Edit Profile
+    .tbl-content
+        table(cellpadding='5', cellspacing='1', border='1')
+            thead
+                tr
+                    th First Name
+                    th Last Name
+                    th Username
+                    th Email
+                    th School
+                    th Registration Date
+                    
+            tbody
+                each row in table
+                    tr  
+                        td= row.Firstname
+                        td= row.Lastname
+                        td= row.Username
+                        td= row.Email
+                        td= row.School
+                        td= row.RegistrationDate
+                    
+            

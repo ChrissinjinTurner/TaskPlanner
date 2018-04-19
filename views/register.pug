@@ -4,6 +4,7 @@ block content
     .main.container
         .row
             h1 Register
+            a(href="/login") Go back
             form(method='POST' action='/register')
                 div.form-group
                     label(for='firstname') First Name: 
@@ -32,6 +33,4 @@ block content
                     input.form-control(type='radio' id='role' name='role' value = 1)
                     |  Student 
                 button.btn.btn-primary(type='submit') Submit
-            form(method='GET' action='/login')
-                button.btn.btn-primary(type='submit') Login
             

@@ -317,7 +317,7 @@ app.post('/edithomework', function(req, res, next) {
         Priority: req.body.priority,
         Description: req.body.description
       };
-      var query1 = connection.query('Update Task set ? where UserId = ' + req.session.userId +'', post, function(error, rows, body) {
+      var query1 = connection.query('Update Task set ? where UserId = ' + req.session.userId + '', post, function(error, rows, body) {
         if (error) throw error;
         res.redirect('/home');
       })
@@ -601,7 +601,101 @@ app.get('/editprofile', function(req, res, next) {
 })
 
 /* POST edit profile page FIXME: add functionality */
+app.post('/editprofile', function(req, res, next) {
+  if (req.body.firstname &&
+    req.body.lastname &&
+    req.body.username &&
+    req.body.email &&
+    req.body.school) {
+      var post = {
+        Firstname: req.body.firstname,
+        Lastname: req.body.lastname,
+        Username: req.body.username,
+        Email: req.body.email,
+        School: req.body.school,
+        UserId: req.session.userId
+      };
+      var query1 = connection.query('Update User set ? where UserId = ' + req.session.userId + '', post, function(error, rows, body) {
+        if (error) throw error;
+        res.redirect('/profile');
+      })
+    }
+})
 /* ----------------------------------END PROFILE------------------------------------------------------- */
+
+/* ----------------------------------START Student PROFILE----------------------------------------------------- */
+/* GET student profile page */
+app.get('/studentprofile', function(req, res, next) {
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    var component = [];
+    var query = connection.query('select Firstname, Lastname, Username, Email, School, RegistrationDate from User where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.Firstname = rows[i].Firstname;
+            singleRow.Lastname = rows[i].Lastname;
+            singleRow.Username = rows[i].Username;
+            singleRow.Email = rows[i].Email;
+            singleRow.School = rows[i].School;
+            singleRow.RegistrationDate = rows[i].RegistrationDate;
+            component.push(singleRow);
+          }
+        }
+        res.render('studentprofile', {table: component, title: 'Student Profile Page'});
+      });
+  } else {
+    res.redirect('/login')
+  }
+})
+
+/* GET edit student profile page */
+app.get('/editstudentprofile', function(req, res, next) {
+  if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
+    var component = [];
+    var query = connection.query('select Firstname, Lastname, Username, Email, School, RegistrationDate from User where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.Firstname = rows[i].Firstname;
+            singleRow.Lastname = rows[i].Lastname;
+            singleRow.Username = rows[i].Username;
+            singleRow.Email = rows[i].Email;
+            singleRow.School = rows[i].School;
+            singleRow.RegistrationDate = rows[i].RegistrationDate;
+            component.push(singleRow);
+          }
+        }
+        res.render('editstudentprofile', {table: component, title: 'Edit Student Profile Page'});
+      });
+  } else {
+    res.redirect('/login')
+  }
+})
+
+/* POST edit profile page FIXME: add functionality */
+app.post('/editstudentprofile', function(req, res, next) {
+  if (req.body.firstname &&
+    req.body.lastname &&
+    req.body.username &&
+    req.body.email &&
+    req.body.school) {
+      var post = {
+        Firstname: req.body.firstname,
+        Lastname: req.body.lastname,
+        Username: req.body.username,
+        Email: req.body.email,
+        School: req.body.school,
+        UserId: req.session.userId
+      };
+      var query1 = connection.query('Update User set ? where UserId = ' + req.session.userId + '', post, function(error, rows, body) {
+        if (error) throw error;
+        res.redirect('/studentprofile');
+      })
+    }
+})
+/* ----------------------------------END Student PROFILE------------------------------------------------------- */
 
 /* ----------------------------------START LOGOUT------------------------------------------------------ */
 app.get('/logout', function(req, res, next) {
