@@ -25,9 +25,16 @@ block content
                     th Username
                     th Email
                     th School
+                    th Registration Date
                     
             tbody
-                //- each row in table
-                //-     tr
+                each row in table
+                    tr  
+                        td= row.Firstname
+                        td= row.Lastname
+                        td= row.Username
+                        td= row.Email
+                        td= row.School
+                        td= row.RegistrationDate
                     
             

@@ -553,7 +553,23 @@ app.post('/addstudent', function(req, res, next) {
 /* GET profile page */
 app.get('/profile', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
-    res.render('profile', { title: 'Profile' });
+    var component = [];
+    var query = connection.query('select Firstname, Lastname, Username, Email, School, RegistrationDate from User where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.Firstname = rows[i].Firstname;
+            singleRow.Lastname = rows[i].Lastname;
+            singleRow.Username = rows[i].Username;
+            singleRow.Email = rows[i].Email;
+            singleRow.School = rows[i].School;
+            singleRow.RegistrationDate = rows[i].RegistrationDate;
+            component.push(singleRow);
+          }
+        }
+        res.render('profile', {table: component, title: 'Profile Page'});
+      });
   } else {
     res.redirect('/login')
   }
@@ -562,7 +578,23 @@ app.get('/profile', function(req, res, next) {
 /* GET edit profile page */
 app.get('/editprofile', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
-    res.render('editprofile', { title: 'Edit Profile' });
+    var component = [];
+    var query = connection.query('select Firstname, Lastname, Username, Email, School, RegistrationDate from User where UserId = ?',req.session.userId,
+      function(err, rows, fields) {
+        if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
+          for (var i = 0; i < rows.length; i++) {
+            var singleRow = {};
+            singleRow.Firstname = rows[i].Firstname;
+            singleRow.Lastname = rows[i].Lastname;
+            singleRow.Username = rows[i].Username;
+            singleRow.Email = rows[i].Email;
+            singleRow.School = rows[i].School;
+            singleRow.RegistrationDate = rows[i].RegistrationDate;
+            component.push(singleRow);
+          }
+        }
+        res.render('editprofile', {table: component, title: 'Edit Profile Page'});
+      });
   } else {
     res.redirect('/login')
   }
