@@ -4,8 +4,9 @@ block content
     .main.container
         .row
             h1 Edit Homework
+            p Enter all values even if you aren't changing them
             a(href="/home") Go back
-            form(method='GET' action='/home')
+            form(method='POST' action='/edithomework')
                 div.form-group
                     label(for='homeworkid') Homework Id to Edit: 
                     input.form-control(type='text' id='homeworkid' placeholder='Homework Name' name='homeworkid')
@@ -13,8 +14,8 @@ block content
                     label(for='homeworkname') Homework Name: 
                     input.form-control(type='text' id='homeworkname' placeholder='Homework Name' name='homeworkname')
                 div.form-group
-                    label(for='coursename') Course Name: 
-                    input.form-control(type='text' id='coursename' placeholder='Course Name' name='coursename')
+                    label(for='courseid') Course Id: 
+                    input.form-control(type='text' id='courseid' placeholder='Course Id' name='courseid')
                 div.form-group
                     label(for='type') Homework Type: 
                     input.form-control(type='text' id='type' placeholder='Homework Type' name='type')
@@ -35,6 +36,7 @@ block content
                     th Homework Id
                     th Task Name
                     th Course Name
+                    th Course Id
                     th Course Code
                     th Homework Type
                     th Due Date
@@ -47,6 +49,7 @@ block content
                         td= row.TaskId
                         td= row.Taskname
                         td= row.Coursename
+                        td= row.CourseId
                         td= row.CourseCode
                         td= row.HomeworkType
                         td= row.DueDate

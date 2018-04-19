@@ -4,8 +4,9 @@ block content
     .main.container
         .row
             h1 Edit Course
+            p Enter all values even if you aren't changing them
             a(href="/course") Go back
-            form(method='POST' action='/addcourse')
+            form(method='POST' action='/editcourse')
                 div.form-group
                     label(for='courseid') Course Id to Edit: 
                     input.form-control(type='text' id='courseid' placeholder='Course Name' name='courseid')

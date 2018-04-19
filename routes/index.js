@@ -272,7 +272,7 @@ app.post('/addhomework', function(req, res, next) {
 app.get('/edithomework', function(req, res, next) {
   if (typeof req.session.user !== 'undefined' && req.session.user !== null) {
     var component = [];
-    connection.query('select Task.TaskId, Task.Taskname, Task.HomeworkType, Task.DueDate, Task.Priority, Task.Description, Course.Coursename, Course.CourseCode, Course.Professor from Task LEFT JOIN Course on Task.CourseId = Course.CourseId where Course.UserId = ?;',req.session.userId,
+    connection.query('select Task.TaskId, Task.Taskname, Task.HomeworkType, Task.DueDate, Task.Priority, Task.Description, Course.Coursename, Course.CourseId, Course.CourseCode, Course.Professor from Task LEFT JOIN Course on Task.CourseId = Course.CourseId where Course.UserId = ?;',req.session.userId,
       function(err, rows, fields) {
         if (typeof rows !== 'undefined' && rows !== null && rows.length !== 0) {
           for (var i = 0; i < rows.length; i++) {
@@ -284,6 +284,7 @@ app.get('/edithomework', function(req, res, next) {
             singleRow.Priority = rows[i].Priority;
             singleRow.Description = rows[i].Description;
             singleRow.Coursename = rows[i].Coursename;
+            singleRow.CourseId = rows[i].CourseId;
             singleRow.CourseCode = rows[i].CourseCode;
             singleRow.Professor = rows[i].Professor;
             component.push(singleRow);
@@ -296,7 +297,32 @@ app.get('/edithomework', function(req, res, next) {
   }
 })
 
-/* POST edithomework page FIXME: Need to create page*/
+/* POST edithomework page */
+app.post('/edithomework', function(req, res, next) {
+  if (req.body.homeworkid &&
+    req.body.homeworkname &&
+    req.body.courseid &&
+    req.body.type &&
+    req.body.duedate &&
+    req.body.priority &&
+    req.body.description) {
+      var homeworkId = parseInt(req.body.homeworkid);
+      var courseId = parseInt(req.body.courseid);
+      var post = {
+        TaskId: homeworkId,
+        Taskname: req.body.homeworkname,
+        CourseId: courseId,
+        HomeworkType: req.body.type,
+        DueDate: req.body.duedate,
+        Priority: req.body.priority,
+        Description: req.body.description
+      };
+      var query1 = connection.query('Update Task set ? where UserId = ' + req.session.userId +'', post, function(error, rows, body) {
+        if (error) throw error;
+        res.redirect('/home');
+      })
+    }
+})
 /* ----------------------------------END ADD/EDIT HOMEWORK--------------------------------------------- */
 
 /* ----------------------------------START COURSE PAGE------------------------------------------------- */
@@ -433,6 +459,31 @@ app.get('/editcourse', function(req, res, next) {
 })
 
 /* POST editcourse page FIXME: add functionality */
+app.post('/editcourse', function(req, res, next) {
+  if (req.body.courseid &&
+    req.body.coursename &&
+    req.body.coursecode &&
+    req.body.startdate &&
+    req.body.enddate &&
+    req.body.location &&
+    req.body.professor) {
+      var courseId = parseInt(req.body.courseid);
+      var post = {
+        CourseId: courseId,
+        Coursename: req.body.coursename,
+        CourseCode: req.body.coursecode,
+        StartDate: req.body.startdate,
+        EndDate: req.body.enddate,
+        location: req.body.location,
+        Professor: req.body.professor
+      };
+      var query1 = connection.query('Update Course set ? where CourseId = ' + courseId +' and UserId = ' + req.session.userId + '', post, 
+        function(error, rows, body) {
+        if (error) throw error;
+        res.redirect('/course');
+      })
+    }
+})
 /* ----------------------------------END ADD/EDIT COURSE----------------------------------------------- */
 
 /* ----------------------------------Start ADD Student------------------------------------------------- */
@@ -490,7 +541,6 @@ app.post('/addstudent', function(req, res, next) {
     };
     var query1 = connection.query('Insert into Enrolled set ?', post, 
       function(err, rows, fields) {
-        console.log(query1);
         if (err) throw err;
         res.redirect('/addstudent');
       });
