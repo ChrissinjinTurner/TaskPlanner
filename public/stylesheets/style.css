@@ -39,6 +39,36 @@ body {
   padding: 15px;
 }
 
+.largeWindow ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgba(73, 129, 162, .87);
+  color: white;
+}
+
+.largeWindow li {
+  float: left;
+}
+
+.largeWindow li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.largeWindow li a:hover {
+  background-color: #85D8F8;
+}
+
+.active {
+  background-color: #85D8F8;
+}
+
 a {
   color: #00B7FF;
 }
