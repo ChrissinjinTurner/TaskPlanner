@@ -1,6 +1,42 @@
 body {
+  background-image: url("../images/login.jpg");
+  background-attachment: fixed;
+  background-size: cover;
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: white
+}
+
+.main.container {
+  background-color: rgba(255, 255, 255, 0.89);
+  color: #4981A2;
+  overflow: hidden;
+  border-style: solid;
+  border-color: rgba(73, 129, 162, .87);
+  border-width: 9px;
+  height: auto;
+  max-width: 620px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+}
+
+.largeWindow {
+  background-color: rgba(255, 255, 255, 0.89);
+  color: #4981A2;
+  overflow: hidden;
+  border-style: solid;
+  border-color: rgba(73, 129, 162, .87);
+  border-width: 9px;
+  height:95%;
+  width: 85%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
 }
 
 a {

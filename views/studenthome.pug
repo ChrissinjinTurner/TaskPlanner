@@ -1,17 +1,17 @@
 extends layout
 
 block content
-    .navigation-bar
-        ul
-            li(style="float:right")
-                a(href="/logout") Log out
-            li
-                a(href="/studenthome") Home
-            li
-                a(href="/studentcourse") Courses
-            li
-                a(href="/studentprofile") Profile
-    .main.container
+    .largeWindow
+        .navigation-bar
+            ul
+                li(style="float:right")
+                    a(href="/logout") Log out
+                li
+                    a(href="/studenthome") Home
+                li
+                    a(href="/studentcourse") Courses
+                li
+                    a(href="/studentprofile") Profile
         .row
             h1 Home Page
             form(method='POST' action='/studenthome') 
@@ -19,30 +19,30 @@ block content
                     label(for='completehomeworkid') Homeowrk Id to complete: 
                     input.form-control(type='text' id='completehomeworkid' placeholder='Homework ID' name='completehomeworkid')
                     button.btn.btn-primary(type='submit') Complete Homeowrk
-    .tbl-content
-        p Homework you are assigned:
-        table(cellpadding='5', cellspacing='1', border='1')
-            thead
-                tr
-                    th TaskId
-                    th Task Name
-                    th Course Name
-                    th Course Code
-                    th Homework Type
-                    th Due Date
-                    th Priority
-                    th Description
-                    th Professor
-            tbody
-                each row in table
+        .tbl-content
+            p Homework you are assigned:
+            table(cellpadding='5', cellspacing='1', border='1')
+                thead
                     tr
-                        td= row.TaskId
-                        td= row.Taskname
-                        td= row.Coursename
-                        td= row.CourseCode
-                        td= row.HomeworkType
-                        td= row.DueDate
-                        td= row.Priority
-                        td= row.Description
-                        td= row.Professor
+                        th TaskId
+                        th Task Name
+                        th Course Name
+                        th Course Code
+                        th Homework Type
+                        th Due Date
+                        th Priority
+                        th Description
+                        th Professor
+                tbody
+                    each row in table
+                        tr
+                            td= row.TaskId
+                            td= row.Taskname
+                            td= row.Coursename
+                            td= row.CourseCode
+                            td= row.HomeworkType
+                            td= row.DueDate
+                            td= row.Priority
+                            td= row.Description
+                            td= row.Professor
                             
